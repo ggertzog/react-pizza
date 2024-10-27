@@ -6,15 +6,9 @@
     border: 1px solid #cccccc94;
     padding: 12px 20px;
     padding-left: 40px;
-    width: 300px;
+    width: 400px;
     border-radius: 10px;
     font-size: 16px;
-    transition: all .15s ease-in-out;
-
-    &:focus {
-        border: 1px solid #cccccc;
-        width: 400px;
-    }
 }
 
 .icon {
@@ -24,4 +18,19 @@
     position: absolute;
     left: 10px;
     top: 12px;
+}
+
+.clearIcon {
+    width: 24px;
+    height: 24px;
+    opacity: 0.3;
+    position: absolute;
+    top: 12px;
+    right: 5px;
+    cursor: pointer;
+    transition: all .15s ease-in-out;
+
+    &:hover {
+        opacity: 0.8;
+    }
 }
