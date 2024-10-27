@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import logo from '../assets/img/pizza-logo.svg';
+import Seacrh from './Search';
 
 export default function Header() {
   return (
@@ -15,6 +16,7 @@ export default function Header() {
             </div>
           </div>
         </Link>
+        <Seacrh />
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>520 ₽</span>

@@ -2,6 +2,9 @@
 
 .sort {
   position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
 
   &__label {
     display: flex;
@@ -9,7 +12,7 @@
     align-items: center;
 
     b {
-      font-size: 22px;
+      font-size: 20px;
       white-space: nowrap;
     }
 
@@ -17,7 +20,7 @@
       color: $orange;
       border-bottom: 1px dashed $orange;
       cursor: pointer;
-      font-size: 22px;
+      font-size: 20px;
     }
   }
 
@@ -30,7 +33,7 @@
     border-radius: 10px;
     overflow: hidden;
     padding: 10px 0;
-    width: 160px;
+    // width: 160px;
 
     ul {
       overflow: hidden;
@@ -48,6 +51,20 @@
           color: $orange;
         }
       }
+    }
+  }
+
+  &__order-button {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity $duration ease-in-out;
+
+    &:hover {
+      opacity: 0.6;
     }
   }
 }

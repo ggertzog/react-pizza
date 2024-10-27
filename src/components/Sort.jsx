@@ -1,15 +1,17 @@
 import { useState } from 'react';
 
-export default function Sort() {
+export default function Sort({ value, onChangeSort, setOrderType }) {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(0);
-  const list = ['популярности', 'цене', 'алфавиту'];
-  const sortName = list[selected];
+  const list = [
+    { name: 'популярности', sortProperty: 'rating' },
+    { name: 'цене', sortProperty: 'price' },
+    { name: 'алфавиту', sortProperty: 'title' },
+  ];
 
   const onClickListItem = (i) => {
-    setSelected(i);
+    onChangeSort(i);
     setOpen(false);
-  } 
+  };  
 
   return (
     <div className="sort">
@@ -26,22 +28,32 @@ export default function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{sortName}</span>
+        <span onClick={() => setOpen(!open)}>{value.name}</span>
       </div>
       {open && (
         <div className="sort__popup">
           <ul>
-            {list.map((name, index) => (
+            {list.map((obj, index) => (
               <li
                 key={index}
-                className={selected === index ? 'active' : ''}
-                onClick={() => onClickListItem(index)}>
-                {name}
+                className={value.sortProperty === obj.sortProperty ? 'active' : ''}
+                onClick={() => onClickListItem(obj)}>
+                {obj.name}
               </li>
             ))}
           </ul>
         </div>
       )}
+      <button className="sort__order-button" onClick={() => setOrderType(prev=>!prev)}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#000000"
+          width="20px"
+          height="15px"
+          viewBox="0 0 16 16">
+          <path d="M2 4H0l3-4 3 4H4v12H2V4zm12 8h2l-3 4-3-4h2V0h2v12z" fillRule="evenodd" />
+        </svg>
+      </button>
     </div>
   );
 }
