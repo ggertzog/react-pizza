@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/img/pizza-logo.svg';
 import Seacrh from './Search';
 
-export default function Header({ searchValue, setSearchValue }) {
+export default function Header() {
   return (
     <div className="header">
       <div className="container">
@@ -16,7 +16,7 @@ export default function Header({ searchValue, setSearchValue }) {
             </div>
           </div>
         </Link>
-        <Seacrh searchValue={searchValue} setSearchValue={setSearchValue} />
+        <Seacrh />
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>520 ₽</span>
