@@ -1,17 +1,23 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSort } from '../redux/slices/filterSlice';
 
-export default function Sort({ value, onChangeSort, setOrderType }) {
+const list = [
+  { name: 'популярности', sortProperty: 'rating' },
+  { name: 'цене', sortProperty: 'price' },
+  { name: 'алфавиту', sortProperty: 'title' },
+];
+
+export default function Sort({ setOrderType }) {
+  const dispatch = useDispatch();
+  const sort = useSelector((state) => state.filter.sort);
+
   const [open, setOpen] = useState(false);
-  const list = [
-    { name: 'популярности', sortProperty: 'rating' },
-    { name: 'цене', sortProperty: 'price' },
-    { name: 'алфавиту', sortProperty: 'title' },
-  ];
 
-  const onClickListItem = (i) => {
-    onChangeSort(i);
+  const onClickListItem = (obj) => {
+    dispatch(setSort(obj));
     setOpen(false);
-  };  
+  };
 
   return (
     <div className="sort">
@@ -28,7 +34,7 @@ export default function Sort({ value, onChangeSort, setOrderType }) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{value.name}</span>
+        <span onClick={() => setOpen(!open)}>{sort.name}</span>
       </div>
       {open && (
         <div className="sort__popup">
@@ -36,7 +42,7 @@ export default function Sort({ value, onChangeSort, setOrderType }) {
             {list.map((obj, index) => (
               <li
                 key={index}
-                className={value.sortProperty === obj.sortProperty ? 'active' : ''}
+                className={sort.sortProperty === obj.sortProperty ? 'active' : ''}
                 onClick={() => onClickListItem(obj)}>
                 {obj.name}
               </li>
@@ -44,7 +50,7 @@ export default function Sort({ value, onChangeSort, setOrderType }) {
           </ul>
         </div>
       )}
-      <button className="sort__order-button" onClick={() => setOrderType(prev=>!prev)}>
+      <button className="sort__order-button" onClick={() => setOrderType((prev) => !prev)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="#000000"

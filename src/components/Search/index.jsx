@@ -1,12 +1,31 @@
-import React from 'react';
-
-import {SearchContext} from '../../App.jsx';
+import React, { useState, useCallback, useRef } from 'react';
+import debounce from 'lodash.debounce';
+import { SearchContext } from '../../App.jsx';
 
 import styles from './Search.module.scss';
 
 const Seacrh = () => {
+  const [value, setValue] = useState('');
+  const { setSearchValue } = React.useContext(SearchContext);
+  const inputRef = useRef();
 
-  const { searchValue, setSearchValue } = React.useContext(SearchContext);
+  const onClickClear = () => {
+    setValue('');
+    setSearchValue('');
+    inputRef.current.focus();
+  };
+
+  const updateSearchValue = useCallback(
+    debounce((str) => {
+      setSearchValue(str);
+    }, 300),
+    [],
+  );
+
+  const onChangeInput = (event) => {
+    setValue(event.target.value);
+    updateSearchValue(event.target.value);
+  };
 
   return (
     <div className={styles.root}>
@@ -26,15 +45,16 @@ const Seacrh = () => {
         />
       </svg>
       <input
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        ref={inputRef}
+        value={value}
+        onChange={onChangeInput}
         className={styles.input}
         placeholder="Поиск пиццы"
         type="text"
       />
-      {searchValue && (
+      {value && (
         <svg
-          onClick={() => setSearchValue('')}
+          onClick={onClickClear}
           className={styles.clearIcon}
           width="800px"
           height="800px"
