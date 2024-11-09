@@ -23,6 +23,24 @@ body {
 .content {
   padding: 40px 0;
 
+  &__error-info {
+    margin: 80px auto;
+    width: 580px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+      margin-bottom: 40px;
+      font-size: 36px;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 20px;
+    }
+  }
+
   @media (max-width: 430px) {
     padding: 20px 0;
   }
