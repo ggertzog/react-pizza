@@ -1,10 +1,14 @@
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import logo from '../assets/img/pizza-logo.svg';
 import Seacrh from './Search';
 
+import { Link } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
+import { selectCart } from '../redux/slices/cartSlice';
+
+import logo from '../assets/img/pizza-logo.svg';
+
 export default function Header() {
-  const { items, totalPrice } = useSelector((state) => state.cart);
+  const { items, totalPrice } = useSelector(selectCart); //тоже самое что и const items = useSelector(state => state.cart.items);
 
   const totalCount = items.reduce((sum, obj) => sum + obj.count, 0);
 
