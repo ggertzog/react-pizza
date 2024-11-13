@@ -1,6 +1,6 @@
 import Seacrh from './Search';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { selectCart } from '../redux/slices/cartSlice';
@@ -9,6 +9,8 @@ import logo from '../assets/img/pizza-logo.svg';
 
 export default function Header() {
   const { items, totalPrice } = useSelector(selectCart); //тоже самое что и const items = useSelector(state => state.cart.items);
+
+  const location = useLocation();
 
   const totalCount = items.reduce((sum, obj) => sum + obj.count, 0);
 
@@ -26,7 +28,7 @@ export default function Header() {
         </Link>
         <Seacrh />
         <div className="header__cart">
-          <Link to="/cart" className="button button--cart">
+          {location.pathname !== '/cart' && (<Link to="/cart" className="button button--cart">
             <span>{totalPrice} ₽</span>
             <div className="button__delimiter"></div>
             <svg
@@ -58,7 +60,7 @@ export default function Header() {
               />
             </svg>
             <span>{totalCount}</span>
-          </Link>
+          </Link>)}
         </div>
       </div>
     </div>
