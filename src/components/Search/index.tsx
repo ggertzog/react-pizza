@@ -6,15 +6,15 @@ import styles from './Search.module.scss';
 import { useDispatch } from 'react-redux';
 import { setSearchValue } from '../../redux/slices/filterSlice.js';
 
-const Seacrh = () => {
+const Seacrh: React.FC = () => {
   const dispatch = useDispatch();
-  const [value, setValue] = useState('');
-  const inputRef = useRef();
+  const [value, setValue] = useState<string>('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onClickClear = () => {
     setValue('');
     dispatch(setSearchValue(''));
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   const updateSearchValue = useCallback(
@@ -24,7 +24,7 @@ const Seacrh = () => {
     [],
   );
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: any) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };

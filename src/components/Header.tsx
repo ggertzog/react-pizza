@@ -12,7 +12,7 @@ export default function Header() {
 
   const location = useLocation();
 
-  const totalCount = items.reduce((sum, obj) => sum + obj.count, 0);
+  const totalCount = items.reduce((sum: number, obj: any) => sum + obj.count, 0);
 
   return (
     <div className="header">

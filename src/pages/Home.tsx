@@ -18,7 +18,7 @@ import Categories from '../components/Categories';
 import Sort, { list } from '../components/Sort';
 import Pagination from '../components/Pagination';
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = useRef(false);
@@ -28,15 +28,16 @@ const Home = () => {
   const sortType = sort.sortProperty;
   const { items, status } = useSelector(selectPizzaData);
 
-  const onClickCategory = (id) => {
+  const onClickCategory = (id: number) => {
     dispatch(setCategoryId(id));
   };
 
-  const onChangePage = (number) => {
+  const onChangePage = (number: number) => {
     dispatch(setCurrentPage(number));
   };
 
   const [orderType, setOrderType] = useState(false);
+
 
   const getPizzas = async () => {
     const category = categoryId > 0 ? `category=${categoryId}` : '';
@@ -44,6 +45,7 @@ const Home = () => {
     const order = orderType ? 'asc' : 'desc';
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         category,
         search,
@@ -96,20 +98,20 @@ const Home = () => {
     isSearch.current = false;
   }, [categoryId, sortType, orderType, searchValue, currentPage]);
 
-  const pizzas = items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+  const pizzas = items.map((pizza: any) => <PizzaBlock key={pizza.id} {...pizza} />);
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
   return (
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onClickCategory={onClickCategory} />
-        <Sort orderType={orderType} setOrderType={setOrderType} />
+        <Sort setOrderType={setOrderType} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
         <div className="content__error-info">
           <h2>
-            Произошла ошибка <icon>😕</icon>
+            Произошла ошибка 😕
           </h2>
           <p>
             К сожалению, не удалось получить пиццы.
