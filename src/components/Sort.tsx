@@ -2,17 +2,18 @@ import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSort, setSort } from '../redux/slices/filterSlice';
+import { selectSort, setSort, SortPropertyEnum } from '../redux/slices/filterSlice';
+import { SortItem } from '../redux/slices/filterSlice';
 
-type SortItem = {
-  name: string;
-  sortProperty: string;
-}
+// type SortItem = {
+//   name: string;
+//   sortProperty: 'rating' | 'price' | 'title';
+// }
 
 export const list: SortItem[] = [
-  { name: 'популярности', sortProperty: 'rating' },
-  { name: 'цене', sortProperty: 'price' },
-  { name: 'алфавиту', sortProperty: 'title' },
+  { name: 'популярности', sortProperty: SortPropertyEnum.RATING },
+  { name: 'цене', sortProperty: SortPropertyEnum.PRICE },
+  { name: 'алфавиту', sortProperty: SortPropertyEnum.TITLE },
 ];
 
 interface SortProps {
