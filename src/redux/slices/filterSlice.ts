@@ -14,14 +14,14 @@ export type SortItem = {
 
 export interface FilterSliceState {
   searchValue: string;
-  categoryId: number;
+  categoryId: number; // Изменено на string
   currentPage: number;
   sort: SortItem;
 }
 
 const initialState: FilterSliceState = {
   searchValue: '',
-  categoryId: 0,
+  categoryId: 0, // Изменено на ''
   currentPage: 1,
   sort: {
     name: 'популярности',
@@ -33,7 +33,7 @@ const filterSlice = createSlice({
   name: 'filters',
   initialState,
   reducers: {
-    setCategoryId(state, action: PayloadAction<number>) {
+    setCategoryId(state, action: PayloadAction<number>) { // Изменено на string
       state.categoryId = action.payload;
     },
     setSearchValue(state, action: PayloadAction<string>) {
@@ -45,22 +45,13 @@ const filterSlice = createSlice({
     setCurrentPage(state, action: PayloadAction<number>) {
       state.currentPage = action.payload;
     },
-    setFilters(state, action: PayloadAction<FilterSliceState>) {
-        if(Object.keys(action.payload).length) {
-            state.currentPage = Number(action.payload.currentPage);
-            state.categoryId = Number(action.payload.categoryId);
-            state.sort = action.payload.sort;
-        } else {
-            state.currentPage = 1;
-            state.categoryId = 0;
-            state.sort = {
-                name: 'популярности',
-                sortProperty: SortPropertyEnum.RATING,
-            }
-        }
-    //   state.currentPage = Number(action.payload.currentPage);
-    //   state.currentPage = action.payload.currentPage;
-    //   state.categoryId = Number(action.payload.categoryId);
+    setFilters(state, action: PayloadAction<Partial<FilterSliceState>>) { // Изменено на Partial
+      const { categoryId, currentPage, sort } = action.payload;
+
+      //Проверяем и применяем изменения, если есть
+      if (categoryId !== undefined) state.categoryId = categoryId;
+      if (currentPage !== undefined) state.currentPage = currentPage;
+      if (sort !== undefined) state.sort = sort;
     },
   },
 });

@@ -1,14 +1,9 @@
 import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { selectSort, setSort, SortPropertyEnum } from '../redux/slices/filterSlice';
+import { useDispatch } from 'react-redux';
+import { setSort, SortPropertyEnum } from '../redux/slices/filterSlice';
 import { SortItem } from '../redux/slices/filterSlice';
-
-// type SortItem = {
-//   name: string;
-//   sortProperty: 'rating' | 'price' | 'title';
-// }
 
 export const list: SortItem[] = [
   { name: 'популярности', sortProperty: SortPropertyEnum.RATING },
@@ -17,12 +12,12 @@ export const list: SortItem[] = [
 ];
 
 interface SortProps {
+  value: SortItem;
   setOrderType: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Sort: React.FC<SortProps> = ({ setOrderType }) => {
+const Sort: React.FC<SortProps> = React.memo(({ value, setOrderType }) => {
   const dispatch = useDispatch();
-  const sort = useSelector(selectSort);
   const sortRef = useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = useState(false);
@@ -34,11 +29,10 @@ const Sort: React.FC<SortProps> = ({ setOrderType }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      
       if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
         setOpen(false);
       }
-    }
+    };
 
     document.body.addEventListener('click', handleClickOutside);
 
@@ -60,7 +54,7 @@ const Sort: React.FC<SortProps> = ({ setOrderType }) => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{sort.name}</span>
+        <span onClick={() => setOpen(!open)}>{value.name}</span>
       </div>
       {open && (
         <div className="sort__popup">
@@ -68,7 +62,7 @@ const Sort: React.FC<SortProps> = ({ setOrderType }) => {
             {list.map((obj, index) => (
               <li
                 key={index}
-                className={sort.sortProperty === obj.sortProperty ? 'active' : ''}
+                className={value.sortProperty === obj.sortProperty ? 'active' : ''}
                 onClick={() => onClickListItem(obj)}>
                 {obj.name}
               </li>
@@ -88,7 +82,6 @@ const Sort: React.FC<SortProps> = ({ setOrderType }) => {
       </button>
     </div>
   );
-}
-
+});
 
 export default Sort;

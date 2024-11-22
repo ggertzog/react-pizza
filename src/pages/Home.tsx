@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import qs from 'qs';
@@ -29,9 +29,9 @@ const Home: React.FC = () => {
   const sortBy = sort.sortProperty;
   const { items, status } = useSelector(selectPizzaData);
 
-  const onClickCategory = (id: number) => {
+  const onClickCategory = useCallback((id: number) => {
     dispatch(setCategoryId(id));
-  };
+  }, []);
 
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
@@ -59,36 +59,36 @@ const Home: React.FC = () => {
   };
 
   // Если изменили параметры и был первый рендер
-  useEffect(() => {
-    if (isMounted.current) {
-      const queryString = qs.stringify({
-        sortProperty: sortBy,
-        categoryId,
-        currentPage,
-      });
+  // useEffect(() => {
+  //   if (isMounted.current) {
+  //     const queryString = qs.stringify({
+  //       sortProperty: sortBy,
+  //       categoryId,
+  //       currentPage,
+  //     });      
 
-      navigate(`?${queryString}`);
-    }
+  //     navigate(`?${queryString}`);
+  //   }
 
-    isMounted.current = true;
-  }, [categoryId, sortBy, orderType, currentPage]);
+  //   isMounted.current = true;
+  // }, [categoryId, sortBy, orderType, currentPage]);
 
   // Если был первый рендер, то проверяем URL-параметры и сохраняем в редaкс
-  useEffect(() => {
-    if (window.location.search) {
-      const params = (qs.parse(window.location.search.substring(1)) as unknown) as SearchPizzaParams;
-      const sort = list.find((obj) => obj.sortProperty === params.sortBy);
+  // useEffect(() => {
+  //   if (window.location.search) {
+  //     const params = (qs.parse(window.location.search.substring(1)) as unknown) as SearchPizzaParams;      
+  //     const sort = list.find((obj) => obj.sortProperty === params.sortBy);
       
-      dispatch(setFilters({
-        categoryId: Number(params.category),
-        searchValue: params.search,
-        currentPage: Number(params.currentPage),
-        sort: sort || list[0],
-      }));
+  //     dispatch(setFilters({
+  //       categoryId: Number(params.category),
+  //       searchValue: params.search,
+  //       currentPage: Number(params.currentPage),
+  //       sort: sort || list[0],
+  //     }));
 
-      isSearch.current = true;
-    }
-  }, []);
+  //     isSearch.current = true;
+  //   }
+  // }, []);
 
   // Если был первий рендер, то запрашиваем пиццы
   useEffect(() => {
@@ -104,7 +104,7 @@ const Home: React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onClickCategory={onClickCategory} />
-        <Sort setOrderType={setOrderType} />
+        <Sort value={sort} setOrderType={setOrderType} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
